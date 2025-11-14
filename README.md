@@ -1,46 +1,50 @@
-# Astro Starter Kit: Basics
+# Frontend – Astro + TailwindCSS + React (.tsx)
 
-```sh
-npm create astro@latest -- --template basics
+Este repositorio contiene el frontend de SysParking, desarrollado con **Astro**, **TailwindCSS** y **React.js**. El objetivo es ofrecer una experiencia rápida, modular y visualmente atractiva, ideal para proyectos modernos y escalables.
+
+---
+
+## Tecnologías utilizadas
+
+- [Astro](https://astro.build/) – Framework moderno para sitios rápidos y estáticos.
+- [TailwindCSS](https://tailwindcss.com/) – Utilidades CSS para diseño responsivo y minimalista.
+- [React](https://reactjs.org/) – Componentes interactivos en `.tsx`.
+- [TypeScript](https://www.typescriptlang.org/) – Tipado estático para mayor robustez.
+
+---
+
+## Instalación
+
+### 1. Clonar el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/sysParkingFrontend.git
+cd sysParkingFrontend
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+### 2. Instalar dependencias
 
-## 🚀 Project Structure
-
-Inside of your Astro project, you'll see the following folders and files:
-
-```text
-/
-├── public/
-│   └── favicon.svg
-├── src
-│   ├── assets
-│   │   └── astro.svg
-│   ├── components
-│   │   └── Welcome.astro
-│   ├── layouts
-│   │   └── Layout.astro
-│   └── pages
-│       └── index.astro
-└── package.json
+```bash
+npm install
+# o
+pnpm install
 ```
 
-To learn more about the folder structure of an Astro project, refer to [our guide on project structure](https://docs.astro.build/en/basics/project-structure/).
+### 3. Ejecutar en modo desarrollo
 
-## 🧞 Commands
+```bash
+npm run dev
+```
 
-All commands are run from the root of the project, from a terminal:
+Buenas prácticas
+- Componentes reutilizables y tipados
+- Separación clara entre lógica y presentación
+- Uso de hooks personalizados si aplica
+- Convenciones de nombres consistentes
 
-| Command                   | Action                                           |
-| :------------------------ | :----------------------------------------------- |
-| `npm install`             | Installs dependencies                            |
-| `npm run dev`             | Starts local dev server at `localhost:4321`      |
-| `npm run build`           | Build your production site to `./dist/`          |
-| `npm run preview`         | Preview your build locally, before deploying     |
-| `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
+Licencia
+Este proyecto está bajo la licencia MIT.
 
-## 👀 Want to learn more?
-
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+Contacto
+Desarrollado por Mauricio Pucheta.
+Para consultas o colaboraciones: [mnp.softdev@gmail.com]
