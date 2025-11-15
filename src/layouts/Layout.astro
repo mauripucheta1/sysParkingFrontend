@@ -1,13 +1,20 @@
+---
+import App from "../components/App.tsx";
+---
 <!doctype html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/png" href="/favicon.png" />
+		<link rel="stylesheet" href="/src/styles/global.css" />
 		<meta name="generator" content={Astro.generator} />
 		<title>SysParking</title>
 	</head>
 	<body>
+
+		<App client:only="react" />
+
 		<slot />
 	</body>
 </html>
