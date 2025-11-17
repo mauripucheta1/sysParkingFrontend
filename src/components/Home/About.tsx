@@ -45,10 +45,8 @@ const About = () => {
                 transition={{ repeat: Infinity, duration: 4 }}
             />
 
-            {/* Content Wrapper */}
             <div className="max-w-6xl grid grid-cols-1 md:grid-cols-2 gap-12 items-center z-10">
 
-                {/* Founder Image */}
                 <motion.div
                     initial={{ opacity: 0, x: -40 }}
                     whileInView={{ opacity: 1, x: 0 }}
@@ -70,6 +68,7 @@ const About = () => {
                     whileInView={{ opacity: 1, x: 0 }}
                     transition={{ duration: 0.7 }}
                     viewport={{ once: true }}
+                    className="px-8"
                 >
 
                     <h2 className="text-4xl md:text-5xl font-bold text-[#004DA4] mb-4">

@@ -1,21 +1,14 @@
 import { useEffect, useRef, useState } from "react";
-import { 
-    motion, 
-    useAnimation, 
-    useInView, 
-    useMotionValue, 
-    useTransform, 
-    animate 
-} from "framer-motion";
+import {  motion, useAnimation, useInView, useMotionValue, useTransform, animate } from "framer-motion";
 import { Car, ParkingCircle, Camera, Gauge, KeySquare, LineChart } from "lucide-react";
 
 const Services = () => {
-    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
 
-    // Cursor parallax effect
+    const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
     const parallaxRef = useRef<HTMLDivElement>(null);
 
     useEffect(() => {
+
         const handleMouseMove = (e: MouseEvent) => {
             setMousePos({
                 x: (e.clientX / window.innerWidth - 0.5) * 20,
@@ -25,22 +18,24 @@ const Services = () => {
 
         window.addEventListener("mousemove", handleMouseMove);
         return () => window.removeEventListener("mousemove", handleMouseMove);
+
     }, []);
 
-    // Animated counters
     const counterRef = useRef(null);
     const isInView = useInView(counterRef, { once: true });
     const controls = useAnimation();
 
     useEffect(() => {
-    if (isInView) {
-        controls.start({
-            opacity: 1,
-            y: 0,
-            transition: { duration: 1.5 }
-        });
-    }
-}, [isInView, controls]);
+
+        if (isInView) {
+            controls.start({
+                opacity: 1,
+                y: 0,
+                transition: { duration: 1.5 }
+            });
+        };
+
+    }, [isInView, controls]);
 
     const services = [
         {
@@ -76,11 +71,9 @@ const Services = () => {
     ];
 
     return (
-        <section
-            id="services"
-            className="relative w-full h-screen py-24 bg-white overflow-hidden"
-        >
-            {/* Parallax Background Decorative Elements */}
+
+        <section id="services" className="relative w-full h-auto lg:h-screen py-24 bg-white overflow-hidden">
+
             <motion.div
                 ref={parallaxRef}
                 animate={{
@@ -100,8 +93,8 @@ const Services = () => {
                 className="absolute bottom-10 right-10 w-32 h-32 bg-[#00A46D] rounded-full blur-xl opacity-40"
             />
 
-            {/* Title */}
-            <div className="text-center mb-16 px-4">
+            <div className="text-center mb-16 px-8">
+
                 <motion.h2
                     initial={{ opacity: 0, y: 30 }}
                     whileInView={{ opacity: 1, y: 0 }}
@@ -117,64 +110,39 @@ const Services = () => {
                     whileInView={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.8 }}
                     viewport={{ once: true }}
-                    className="mt-4 text-gray-600 text-lg max-w-3xl mx-auto"
+                    className="mt-4 text-gray-600 text-lg max-w-3xl mx-auto px-8"
                 >
                     A complete ecosystem to manage parking operations, automate control,
                     and optimize business performance with intelligent tools.
                 </motion.p>
+
             </div>
 
-            {/* Services Grid */}
-            <div className="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 px-6">
+            <div className="max-w-6xl lg:max-w-3xl xl:max-w-5xl 2xl:max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 md:gap-4 px-6 lg:justify-end">
+
                 {services.map((s, i) => (
+
                     <motion.div
                         key={i}
                         initial={{ opacity: 0, y: 40 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         transition={{ duration: 0.5, delay: i * 0.1 }}
                         viewport={{ once: true }}
-                        className="bg-white rounded-2xl  p-8 "
+                        className="bg-white rounded-2xl p-4 md:p-8 lg:p-4"
                     >
                         <div className="mb-4 ">{s.icon}</div>
                         <h3 className="text-xl font-semibold text-[#004DA4]">{s.title}</h3>
                         <p className="mt-2 text-gray-600">{s.desc}</p>
                     </motion.div>
+
                 ))}
+
             </div>
 
         </section>
-    );
-};
 
-// Counter component with animation
-const Counter = ({ number, label, color }: { number: number; label: string; color: string }) => {
-    const count = useMotionValue(0);
+    )
 
-    // Smoothly convert the motion value into rounded integer
-    const rounded = useTransform(count, (latest) => Math.floor(latest));
-
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
-
-    useEffect(() => {
-        if (isInView) {
-            const controls = animate(count, number, {
-                duration: 2,
-                ease: "easeOut"
-            });
-
-            return () => controls.stop();
-        }
-    }, [isInView, number]);
-
-    return (
-        <div ref={ref} className="flex flex-col items-center">
-            <motion.span style={{ color }} className="text-5xl font-bold">
-                {rounded}
-            </motion.span>
-            <p className="text-gray-600 mt-2 text-lg">{label}</p>
-        </div>
-    );
 };
 
 export default Services;

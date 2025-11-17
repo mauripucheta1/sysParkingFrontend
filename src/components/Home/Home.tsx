@@ -12,7 +12,7 @@ const Home = () => {
 
             </div>
 
-            <section className="max-w-4xl">
+            <section className="max-w-4xl text-center md:text-left px-8">
 
                 <h1 className="text-4xl md:text-6xl font-bold text-[#004DA4] leading-tight">
                     Smart Parking Solutions for Modern Businesses
@@ -28,7 +28,7 @@ const Home = () => {
 
             </section>
 
-            <div className="absolute bottom-6 right-6 bg-white/90 p-4 flex flex-col items-start">
+            <div className="absolute bottom-20 md:right-8 bg-white/90 p-4 flex flex-col items-center md:items-start">
 
                 <p className="text-[#004DA4] font-bold text-lg">+450 Parkings Connected</p>
                 <span className="text-gray-500 text-sm">Across Córdoba</span>

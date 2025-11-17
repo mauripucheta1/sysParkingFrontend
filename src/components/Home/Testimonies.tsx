@@ -1,32 +1,25 @@
 import { useEffect, useRef } from "react";
 import { motion, useInView, useMotionValue, animate } from "framer-motion";
-import {
-    LineChart,
-    Line,
-    ResponsiveContainer,
-    Tooltip,
-    CartesianGrid,
-    XAxis,
-} from "recharts";
+import { LineChart, Line, ResponsiveContainer, Tooltip, CartesianGrid, XAxis } from "recharts";
 
 const testimonials = [
     {
-        name: "Jonathan Reed",
-        role: "Parking Facility Manager – Toronto",
+        name: "Tobias Molina",
+        role: "Parking Facility Manager – Colonia Caroya",
         text: "SysParking transformed the way we operate. The real-time entry tracking alone reduced manual tasks by 40%.",
     },
     {
-        name: "Emily Parker",
-        role: "Operations Director – GreenPark Co.",
+        name: "Juan Venencia",
+        role: "Operations Director – Colonia Caroya",
         text: "The OCR plate recognition is unbelievably accurate. It completely streamlined our access control.",
     },
     {
-        name: "David Mitchell",
+        name: "Hugo Ramirez",
         role: "CEO – MetroPark Solutions",
-        text: "We could track occupancy peaks and optimize staffing. The analytics are incredibly valuable.",
+        text: "We could track occupancy peaks and optimize staffing accordingly. The analytics are incredibly valuable and highly insightful.",
     },
     {
-        name: "Sophia Martinez",
+        name: "Joaquin Lopez",
         role: "Administrator – AutoSecure Parking",
         text: "Digital ticketing helped us eliminate paper waste and automate billing. It paid for itself in a month.",
     },
@@ -49,40 +42,45 @@ const data = [
 ];
 
 const Testimonies = () => {
+
     return (
-        <section
-            id="testimonies"
-            className="w-full h-screen bg-[#F4F7FB] flex flex-col justify-center py-20 overflow-hidden relative"
-        >
-            {/* Title */}
-            <div className="text-center mb-12 px-6">
+
+        <section id="testimonies" className="w-full h-auto lg:h-screen bg-[#F4F7FB] flex flex-col justify-center py-20 overflow-hidden relative">
+
+            <div className="text-center mb-12 px-8">
+
                 <h2 className="text-4xl md:text-5xl font-bold text-[#004DA4]">
                     What Our Clients Say
                 </h2>
+
                 <p className="mt-4 text-gray-600 max-w-2xl mx-auto text-lg">
                     SysParking is trusted by businesses worldwide to automate and optimize their parking operations.
                 </p>
+
             </div>
 
-            {/* Carousel */}
             <Carousel />
 
-            {/* Counters */}
-            <div className="mt-14 flex flex-wrap justify-center gap-12 px-6">
+            <div className="mt-14 flex flex-col md:flex-row justify-center gap-4 lg:gap-12 px-6">
                 {counters.map((c, i) => (
                     <Counter key={i} number={c.number} label={c.label} />
                 ))}
             </div>
 
             <MiniChart />
+
         </section>
+
     );
+
 };
 
-/* -------------------- Carousel Component -------------------- */
 const Carousel = () => {
+
     return (
+
         <div className="relative w-[75%] overflow-hidden mx-auto py-5">
+
             <motion.div
                 className="flex gap-10 px-6"
                 initial={{ x: 0 }}
@@ -90,12 +88,13 @@ const Carousel = () => {
                 transition={{
                     repeat: Infinity,
                     repeatType: "loop",
-                    duration: 20,
+                    duration: 8,
                     ease: "linear",
                 }}
             >
-                {/* Doubled list for infinite loop */}
+                
                 {[...testimonials, ...testimonials].map((t, i) => (
+
                     <motion.div
                         key={i}
                         drag="x"
@@ -112,98 +111,107 @@ const Carousel = () => {
                             <p className="text-gray-500 text-sm">{t.role}</p>
                         </div>
                     </motion.div>
+
                 ))}
+
             </motion.div>
+
         </div>
-    );
+
+    )
+
 };
 
-/* -------------------- Counter Component -------------------- */
 const Counter = ({ number, label, color }: { number: number; label: string; color?: string }) => {
+
     const ref = useRef(null);
     const isInView = useInView(ref, { once: true });
 
     const count = useMotionValue(0);
     const rounded = useMotionValue(0);
 
-    // Sync rounded with count
     useEffect(() => {
+
         const unsub = count.on("change", (latest) => {
             rounded.set(Math.floor(latest));
         });
+
         return () => unsub();
+        
     }, []);
 
-    // Trigger animation when visible
     useEffect(() => {
+
         if (isInView) {
             animate(count, number, { duration: 2 });
         }
+
     }, [isInView, number]);
 
     return (
+
         <div ref={ref} className="text-center">
+
             <motion.span
                 style={{ color: color ?? '#004DA4' }}
-                className="text-4xl md:text-5xl font-bold"
+                className="text-2xl md:text-3xl font-bold"
             >
                 <motion.span
-    style={{ color: color ?? "#004DA4" }}
-    className="text-4xl md:text-5xl font-bold"
->
-    {rounded}
-</motion.span>
+                    style={{ color: color ?? "#004DA4" }}
+                    className="text-4xl lg:text-5xl font-bold"
+                >
+                    {rounded}
+                </motion.span>
 
             </motion.span>
 
             <p className="text-gray-600 mt-2 text-lg">{label}</p>
+
         </div>
-    );
-};
 
-/* Number animation helper */
-const AnimatedNumber = ({ controls }: { controls: any }) => {
-    const spanRef = useRef<HTMLSpanElement | null>(null);
+    )
 
-    useEffect(() => {
-        controls.start({
-            value: controls?.currentValue || 0,
-            transition: { duration: 2 },
-            onUpdate: (latest: any) => {
-                if (spanRef.current) {
-                    spanRef.current.textContent = Math.floor(latest.value).toString();
-                }
-            },
-        });
-    }, [controls]);
-
-    return <span ref={spanRef}>0</span>;
 };
 
 const MiniChart = () => {
-    return (
-        <div className="absolute bottom-10 right-10 hidden lg:block bg-white/70 backdrop-blur-md rounded-xl shadow-md border border-[#E6ECF3] p-4 w-[260px]">
-            <p className="text-sm text-gray-600 font-medium mb-2">
-                Vehicle Entries (Last 7 Days)
-            </p>
 
-            <ResponsiveContainer width="100%" height={120}>
-                <LineChart data={data}>
-                    <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
-                    <XAxis dataKey="day" tick={{ fontSize: 11 }} />
-                    <Tooltip />
-                    <Line
-                        type="monotone"
-                        dataKey="value"
-                        stroke="#004DA4"
-                        strokeWidth={2.5}
-                        dot={false}
-                        isAnimationActive={true}
-                    />
-                </LineChart>
-            </ResponsiveContainer>
+    return (
+
+        <div className="mt-5 flex justify-center md:justify-end w-full">
+
+            <div className="block bg-white/70 backdrop-blur-md rounded-xl shadow-md border border-[#E6ECF3] p-4 w-[260px] md:mr-8">
+
+                <p className="text-sm text-gray-600 font-medium mb-2">
+                    Vehicle Entries (Last 7 Days)
+                </p>
+
+                <ResponsiveContainer width="100%" height={120}>
+
+                    <LineChart data={data}>
+
+                        <CartesianGrid strokeDasharray="3 3" opacity={0.2} />
+                        <XAxis dataKey="day" tick={{ fontSize: 11 }} />
+                        <Tooltip />
+
+                        <Line
+                            type="monotone"
+                            dataKey="value"
+                            stroke="#004DA4"
+                            strokeWidth={2.5}
+                            dot={false}
+                            isAnimationActive={true}
+                        />
+                        
+                    </LineChart>
+
+                </ResponsiveContainer>
+
+            </div>
+
         </div>
-    );
+
+    )
+
 };
 
 export default Testimonies;
