@@ -1,17 +1,22 @@
 import { useState } from "react";
-import { Mail, Lock, User } from "lucide-react";
+import { User, IdCard, Cake, Phone, Mail, Lock } from "lucide-react";
 
 const Register = () => {
 
-    const [fullName, setFullName] = useState("");
+    const [namePerson, setNamePerson] = useState("");
+    const [lastNamePerson, setLastNamePerson] = useState("");
+    const [nid, setNid] = useState(0);
+    const [age, setAge] = useState(0);
+    const [phoneNumber, setPhoneNumber] = useState(0);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [capsLockOn, setCapsLockOn] = useState(false);
 
     return (
 
         <div className="h-screen w-full bg-[#F4F7FB] flex items-center justify-center px-4">
 
-            <div className="w-full max-w-md bg-white rounded-2xl shadow-lg p-8">
+            <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-8">
 
                 <div className="w-full flex flex-col items-center mb-8">
 
@@ -33,76 +38,147 @@ const Register = () => {
 
                 </div>
 
-                <form className="flex flex-col gap-6">
-                    
-                    {/* Full Name */}
-                    <div className="flex flex-col gap-1">
+                <form className="flex gap-8" id="formRegister">
 
-                        <label className="font-medium text-sm text-[#004DA4]">Full Name</label>
+                    {/* Col 1 */}
+                    <div className="w-1/2 flex flex-col gap-3">
 
-                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+                        {/* Name */}
+                        <div className="flex flex-col gap-1">
 
-                            <User className="text-[#004DA4] w-5 h-5 mr-2" />
+                            <label className="font-medium text-sm text-[#004DA4]">Name</label>
 
-                            <input
-                                type="text"
-                                className="w-full outline-none text-gray-700"
-                                placeholder="John Doe"
-                                value={fullName}
-                                onChange={(e) => setFullName(e.target.value)}
-                            />
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+
+                                <User className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input type="text" className="w-full outline-none text-gray-700" placeholder="Mauricio" value={namePerson} onChange={(e) => setNamePerson(e.target.value)} />
+
+                            </div>
+
+                        </div>
+
+                        {/* Last Name */}
+                        <div className="flex flex-col gap-1">
+
+                            <label className="font-medium text-sm text-[#004DA4]">Last Name</label>
+
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+
+                                <User className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input type="text" className="w-full outline-none text-gray-700" placeholder="Pucheta" value={lastNamePerson} onChange={(e) => setLastNamePerson(e.target.value)} />
+
+                            </div>
+
+                        </div>
+
+                        {/* NID */}
+                        <div className="flex flex-col gap-1">
+
+                            <label className="font-medium text-sm text-[#004DA4]">National Identity Document</label>
+
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+
+                                <IdCard className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input type="number" className="w-full outline-none text-gray-700" placeholder="44111333" value={nid} onChange={(e) => setNid(Number(e.target.value))} />
+
+                            </div>
+
+                        </div>
+
+                        {/* Age */}
+                        <div className="flex flex-col gap-1">
+
+                            <label className="font-medium text-sm text-[#004DA4]">Age</label>
+
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+
+                                <Cake className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input type="number" className="w-full outline-none text-gray-700" placeholder="21" value={age} onChange={(e) => setAge(Number(e.target.value))} />
+
+                            </div>
 
                         </div>
 
                     </div>
 
-                    {/* Email */}
-                    <div className="flex flex-col gap-1">
+                    {/* Col 2*/}
+                    <div className="w-1/2 flex flex-col gap-3">
 
-                        <label className="font-medium text-sm text-[#004DA4]">Email</label>
+                        {/* Phone number */}
+                        <div className="flex flex-col gap-1">
 
-                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+                            <label className="font-medium text-sm text-[#004DA4]">Phone Number</label>
 
-                            <Mail className="text-[#004DA4] w-5 h-5 mr-2" />
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
 
-                            <input
-                                type="email"
-                                className="w-full outline-none text-gray-700"
-                                placeholder="your@email.com"
-                                value={email}
-                                onChange={(e) => setEmail(e.target.value)}
-                            />
+                                <Phone className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input type="phone" className="w-full outline-none text-gray-700" placeholder="Pucheta" value={phoneNumber} onChange={(e) => setPhoneNumber(Number(e.target.value))} />
+
+                            </div>
+
+                        </div>
+
+                        {/* Email */}
+                        <div className="flex flex-col gap-1">
+
+                            <label className="font-medium text-sm text-[#004DA4]">Email</label>
+
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+
+                                <Mail className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input type="email" className="w-full outline-none text-gray-700" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+
+                            </div>
+
+                        </div>
+
+                        {/* Password */}
+                        <div className="flex flex-col gap-1 relative">
+
+                            <label className="font-medium text-sm text-[#004DA4]">Password</label>
+
+                            <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+
+                                <Lock className="text-[#004DA4] w-5 h-5 mr-2" />
+
+                                <input
+                                    type="password"
+                                    className="w-full outline-none text-gray-700"
+                                    placeholder="•••••••••"
+                                    value={password}
+                                    onChange={(e) => setPassword(e.target.value)}
+                                    onKeyUp={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
+                                />
+
+                            </div>
+
+                            {capsLockOn && (
+                                <span className="absolute -bottom-7 left-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-md font-medium shadow-sm">
+                                    CAPS LOCK ACTIVATED
+                                </span>
+                            )}
 
                         </div>
 
                     </div>
 
-                    {/* Password */}
-                    <div className="flex flex-col gap-1">
+                </form>
 
-                        <label className="font-medium text-sm text-[#004DA4]">Password</label>
+                <div className="w-full h-auto flex flex-col items-center gap-2 justify-center mt-5">
 
-                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
-
-                            <Lock className="text-[#004DA4] w-5 h-5 mr-2" />
-
-                            <input
-                                type="password"
-                                className="w-full outline-none text-gray-700"
-                                placeholder="•••••••••"
-                                value={password}
-                                onChange={(e) => setPassword(e.target.value)}
-                            />
-
-                        </div>
-
-                    </div>
-
-                    <button type="submit" className="w-full bg-[#00A46D] text-white font-semibold py-2 rounded-xl hover:bg-[#00895B] transition-all hover:cursor-pointer">
+                    <button type="submit" form="formRegister" className="w-[250px] bg-[#00A46D] text-white font-semibold py-2 rounded-xl hover:bg-[#00895B] transition-all hover:cursor-pointer">
                         Register
                     </button>
 
-                </form>
+                    <span className="text-sm text-red-500 hidden">Complete the red fields</span>
+
+                </div>
 
                 <div className="mt-6 flex flex-col items-center gap-2">
 
