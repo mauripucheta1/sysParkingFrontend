@@ -14,7 +14,7 @@ const Register = () => {
 
     return (
 
-        <div className="h-screen w-full bg-[#F4F7FB] flex items-center justify-center px-4">
+        <div className="h-screen w-full bg-[#F4F7FB] flex items-center justify-center px-7 md:px-4">
 
             <div className="w-full max-w-4xl bg-white rounded-2xl shadow-lg p-8">
 
@@ -36,12 +36,14 @@ const Register = () => {
                         Fill the form to get started
                     </p>
 
+                    <span className="text-[#004DA4] text-sm md:hidden mt-2">Scroll to end</span>
+
                 </div>
 
-                <form className="flex gap-8" id="formRegister">
+                <form className="flex flex-col md:flex-row gap-3 md:gap-8 max-h-[450px] overflow-y-scroll md:overflow-y-auto scrollbar-thin md:scrollbar-none scrollbar-thumb-gray-400 md:scrollbar-thumb-transparent scrollbar-track-gray-200 md:scrollbar-track-transparent" id="formRegister">
 
                     {/* Col 1 */}
-                    <div className="w-1/2 flex flex-col gap-3">
+                    <div className="w-full md:w-1/2 flex flex-col gap-3">
 
                         {/* Name */}
                         <div className="flex flex-col gap-1">
@@ -106,7 +108,7 @@ const Register = () => {
                     </div>
 
                     {/* Col 2*/}
-                    <div className="w-1/2 flex flex-col gap-3">
+                    <div className="w-full md:w-1/2 flex flex-col gap-3">
 
                         {/* Phone number */}
                         <div className="flex flex-col gap-1">
@@ -147,11 +149,7 @@ const Register = () => {
 
                                 <Lock className="text-[#004DA4] w-5 h-5 mr-2" />
 
-                                <input
-                                    type="password"
-                                    className="w-full outline-none text-gray-700"
-                                    placeholder="•••••••••"
-                                    value={password}
+                                <input type="password" className="w-full outline-none text-gray-700" placeholder="•••••••••" value={password}
                                     onChange={(e) => setPassword(e.target.value)}
                                     onKeyUp={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
                                 />

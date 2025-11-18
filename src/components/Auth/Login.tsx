@@ -5,6 +5,7 @@ const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [capsLockOn, setCapsLockOn] = useState(false);
 
     return (
 
@@ -39,14 +40,16 @@ const Login = () => {
 
                             <Mail className="text-[#004DA4] w-5 h-5 mr-2" />
 
-                            <input type="email" className="w-full outline-none text-gray-700" placeholder="your@email.com" value={email} onChange={(e) => setEmail(e.target.value)} />
+                            <input type="email" className="w-full outline-none text-gray-700" placeholder="your@email.com" value={email} 
+                                onChange={(e) => setEmail(e.target.value)} 
+                            />
 
                         </div>
 
                     </div>
 
                     {/* Password */}
-                    <div className="flex flex-col gap-1">
+                    <div className="flex flex-col gap-1 relative">
 
                         <label className="font-medium text-sm text-[#004DA4]">Password</label>
 
@@ -54,9 +57,18 @@ const Login = () => {
 
                             <Lock className="text-[#004DA4] w-5 h-5 mr-2" />
 
-                            <input type="password" className="w-full outline-none text-gray-700" placeholder="•••••••••" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <input type="password" className="w-full outline-none text-gray-700" placeholder="•••••••••" value={password} 
+                                onChange={(e) => setPassword(e.target.value)} 
+                                onKeyUp={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
+                            />
 
                         </div>
+
+                        {capsLockOn && (
+                            <span className="absolute -top-1 right-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-md font-medium shadow-sm">
+                                CAPS LOCK ACTIVATED
+                            </span>
+                        )}
 
                     </div>
 
