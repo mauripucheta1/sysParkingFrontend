@@ -1,11 +1,12 @@
 import { useState } from "react";
-import { Mail, Lock } from "lucide-react";
+import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import Swal from "sweetalert2";
 
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [showPassword, setShowPassword] = useState(false);
     const [capsLockOn, setCapsLockOn] = useState(false);
     const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
 
@@ -29,19 +30,19 @@ const Login = () => {
             const data = await response.json();
     
             if (!response.ok) {
-    
+
                 document.querySelectorAll("#formLogin div[id]").forEach((input) => {
                     input.classList.remove("border-red-500");
                     input.classList.add("border-gray-500");
                 });
-    
+
                 if (data.message?.startsWith("Missing required fields:")) {
-    
+
                     const raw = data.message.replace("Missing required fields:", "").trim();
                     const missing = raw.split(",").map((field: string) => field.trim());
-    
+
                     const newErrors: Record<string, string> = {};
-    
+
                     missing.forEach((field: string) => {
                         const el = document.getElementById(field);
                         if (el) {
@@ -50,21 +51,49 @@ const Login = () => {
                         }
                         newErrors[field] = "This field is required.";
                     });
-    
+
                     setFieldErrors(newErrors);
-    
-                    return; 
-    
+                    return;
+
                 };
-    
+
+                if (data.errors?.password === "Incorrect username and/or password.") {
+
+                    ["email", "password"].forEach((field) => {
+                        const el = document.getElementById(field);
+                        if (el) {
+                            el.classList.remove("border-gray-500");
+                            el.classList.add("border-red-500");
+                        }
+                    });
+
+                    setFieldErrors({
+                        email: "",
+                        password: data.errors.password
+                    });
+
+                    return;
+
+                };
+
                 if (data.errors) {
+
+                    Object.keys(data.errors).forEach((field) => {
+                        const el = document.getElementById(field);
+                        if (el) {
+                            el.classList.remove("border-gray-500");
+                            el.classList.add("border-red-500");
+                        }
+                    });
+
                     setFieldErrors(data.errors);
                     return;
+
                 };
-    
+
                 setFieldErrors({});
                 return;
-    
+
             };
     
             document.querySelectorAll("#formLogin div[id]").forEach((input) => {
@@ -77,18 +106,24 @@ const Login = () => {
             });
     
             setFieldErrors({});
+
+            const msgUser = 'Welcome to the SysParking client panel, enjoy...';
+            const msgAdmin = 'Welcome to the SysParking admin panel, enjoy...';
+
+            const msg = data.usuario.role === 1 ? msgAdmin : msgUser;
     
             Swal.fire({
                 icon: "success",
                 toast: true,
                 position: 'top-end',
                 title: "User successfully authenticated!",
-                text: "Welcome to the SysParking admin panel, enjoy....",
-                timer: 5000,
+                text: msg,
+                timer: 2000,
                 showConfirmButton: false,
                 timerProgressBar: true
             }).then(() => {
-                window.location.href = "/admin";
+                if (data.usuario.role === 1) window.location.href = "/admin";
+                else window.location.href = "/user";
             });
     
         } catch (error: any) {
@@ -140,7 +175,7 @@ const Login = () => {
 
                         <label className="font-medium text-sm text-[#004DA4]">Email</label>
 
-                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white" id="email">
 
                             <Mail className="text-[#004DA4] w-5 h-5 mr-2" />
 
@@ -161,14 +196,24 @@ const Login = () => {
 
                         <label className="font-medium text-sm text-[#004DA4]">Password</label>
 
-                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white">
+                        <div className="flex items-center border border-gray-500 rounded-xl px-3 py-2 bg-white" id="password">
 
                             <Lock className="text-[#004DA4] w-5 h-5 mr-2" />
 
-                            <input type="password" className="w-full outline-none text-gray-700" placeholder="•••••••••" value={password} 
+                            <input type={showPassword ? "text" : "password"}  className="w-full outline-none text-gray-700" placeholder="•••••••••" value={password} 
                                 onChange={(e) => setPassword(e.target.value)} 
                                 onKeyUp={(e) => setCapsLockOn(e.getModifierState("CapsLock"))}
                             />
+
+                            <button type="button" className="ml-2 focus:outline-none hover:cursor-pointer"
+                                onClick={() => setShowPassword(!showPassword)}
+                            >
+                                {showPassword ? (
+                                    <EyeOff className="text-gray-600 w-5 h-5" />
+                                ) : (
+                                    <Eye className="text-gray-600 w-5 h-5" />
+                                )}
+                            </button>
 
                         </div>
 
