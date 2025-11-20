@@ -71,3 +71,8 @@ CREATE TABLE payments (
 	id_session INT NOT NULL,
     FOREIGN KEY (id_session) REFERENCES parking_sessions(id_session)
 );
+
+INSERT INTO roles (role_name) VALUES ('Administrator');
+INSERT INTO roles (role_name) VALUES ('User');
+
+INSERT INTO users (dni, user_name, user_last_name, age, email, user_password, phone_number, id_rol) VALUES (45936651, 'Mauricio', 'Pucheta', 21, 'mauri@example.com', 'EXample11??', '+54 9 111111', 1);
