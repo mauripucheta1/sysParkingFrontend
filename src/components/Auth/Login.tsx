@@ -1,11 +1,115 @@
 import { useState } from "react";
 import { Mail, Lock } from "lucide-react";
+import Swal from "sweetalert2";
 
 const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [capsLockOn, setCapsLockOn] = useState(false);
+    const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
+
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    
+        e.preventDefault(); 
+    
+        try {
+    
+            const response = await fetch("http://localhost:4000/api/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    email,
+                    password
+                })
+            });
+    
+            const data = await response.json();
+    
+            if (!response.ok) {
+    
+                document.querySelectorAll("#formLogin div[id]").forEach((input) => {
+                    input.classList.remove("border-red-500");
+                    input.classList.add("border-gray-500");
+                });
+    
+                if (data.message?.startsWith("Missing required fields:")) {
+    
+                    const raw = data.message.replace("Missing required fields:", "").trim();
+                    const missing = raw.split(",").map((field: string) => field.trim());
+    
+                    const newErrors: Record<string, string> = {};
+    
+                    missing.forEach((field: string) => {
+                        const el = document.getElementById(field);
+                        if (el) {
+                            el.classList.add("border-red-500");
+                            el.classList.remove("border-gray-500");
+                        }
+                        newErrors[field] = "This field is required.";
+                    });
+    
+                    setFieldErrors(newErrors);
+    
+                    return; 
+    
+                };
+    
+                if (data.errors) {
+                    setFieldErrors(data.errors);
+                    return;
+                };
+    
+                setFieldErrors({});
+                return;
+    
+            };
+    
+            document.querySelectorAll("#formLogin div[id]").forEach((input) => {
+                input.classList.remove("border-red-500");
+                input.classList.add("border-green-500");
+            });
+    
+            document.querySelectorAll("#formLogin span").forEach((span) => {
+                span.classList.add("hidden");
+            });
+    
+            setFieldErrors({});
+    
+            Swal.fire({
+                icon: "success",
+                toast: true,
+                position: 'top-end',
+                title: "User successfully authenticated!",
+                text: "Welcome to the SysParking admin panel, enjoy....",
+                timer: 5000,
+                showConfirmButton: false,
+                timerProgressBar: true
+            }).then(() => {
+                window.location.href = "/admin";
+            });
+    
+        } catch (error: any) {
+    
+            console.error('Error:', error);
+    
+            Swal.fire({
+                toast: true,
+                position: 'top-end',
+                icon: "error",
+                title: "Error",
+                timer: 3000,
+                showConfirmButton: false,
+                text: "Server error authenticating user.",
+            });
+    
+            return;  
+    
+        };
+    
+    };
 
     return (
 
@@ -29,7 +133,7 @@ const Login = () => {
 
                 </div>
 
-                <form className="flex flex-col gap-6">
+                <form className="flex flex-col gap-6" onSubmit={handleSubmit} id="formLogin">
                     
                     {/* Email */}
                     <div className="flex flex-col gap-1">
@@ -45,6 +149,10 @@ const Login = () => {
                             />
 
                         </div>
+
+                        <span className={`text-sm ${fieldErrors.email ? "text-red-500" : "hidden"}`}>
+                            {fieldErrors.email}
+                        </span>
 
                     </div>
 
@@ -63,6 +171,10 @@ const Login = () => {
                             />
 
                         </div>
+
+                        <span className={`text-sm ${fieldErrors.password ? "text-red-500" : "hidden"}`}>
+                            {fieldErrors.password}
+                        </span>
 
                         {capsLockOn && (
                             <span className="absolute -top-1 right-2 text-xs bg-yellow-200 text-yellow-800 px-2 py-0.5 rounded-md font-medium shadow-sm">
